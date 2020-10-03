@@ -1,11 +1,14 @@
 #include <iostream>
-#include <import.h>
+
+#include "import.h"
+#include "choosing_algorithm.h"
+
+
+
 using namespace std;
 
 int main()
 {
-    import i;
-    i.read_from_files("data_in.csv");
-    i.display_ds();
+
     return 0;
 }
