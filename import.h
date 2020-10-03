@@ -2,7 +2,6 @@
 #define IMPORT_H
 
 
-#include "choosing_algorithm.h"
 #include<fstream>
 #include<stdlib.h>
 #include <iostream>
@@ -12,6 +11,10 @@
 #include <string>
 #include <numeric>
 #include <string_view>
+
+#define MIN_CHAR_IN_TAB (2)
+#define MAX_PRIORITET 10
+#define MIN_PRIORITET 0
 
 struct person{
     std::string time;
@@ -32,6 +35,7 @@ public:
     import();
     void read_from_files(std::string data);
     void display_ds();
+    std::vector<person> getdata();
 };
 
 #endif // IMPORT_H
