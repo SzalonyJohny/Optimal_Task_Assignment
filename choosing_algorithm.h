@@ -6,6 +6,7 @@
 #include <string>
 #include <bits/stdc++.h>
 #include <fstream>
+#include "import.h"
 
 using namespace std;
 #define N 6
@@ -38,7 +39,7 @@ struct Node
 
 Node* newNode(int x, int y, bool assigned[], Node* parent);
 
-int calculateCost(int costMatrix[N][N], int x, int y, bool assigned[]);
+int calculateCost(std::vector< int > master_vec, int x, int y, bool assigned[], int width);
 
 // Comparison object to be used to order the heap
 struct comp
@@ -50,16 +51,23 @@ struct comp
     }
 };
 
-int findMinCost(int costMatrix[N][N]);
+int findMinCost(std::vector< int > master_vec,int width);
 
-std::vector < int > return_line( std::map<char, int> value_map );
+
+
+
+
+
 
 class choosing_algorithm
 {
-    std::map < std::string, int[5] > choice_localization;       //mapa wyborów uczestników klucz = (string) nr indeksu dane [indeks_wybór_1, ... , indeks_wybór_5]
+private:
+    std::map<int, int> value_map;
+    std::vector< int > master_vec;
 
 public:
     choosing_algorithm();
+    void return_line(  import Data );
 
 };
 

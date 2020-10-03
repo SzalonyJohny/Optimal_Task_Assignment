@@ -36,6 +36,8 @@ public:
     void read_from_files(std::string data);
     void display_ds();
     std::vector<person> getdata();
+    int get_numberoftasks();
+    int get_numberofpriorities();
 };
 
 #endif // IMPORT_H

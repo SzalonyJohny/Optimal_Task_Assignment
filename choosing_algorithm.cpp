@@ -1,19 +1,24 @@
 #include "choosing_algorithm.h"
-
-choosing_algorithm::choosing_algorithm()
-{
-
-}
-
 #include <bits/stdc++.h>
 #include <iostream>
 #include <fstream>
 #include <map>
 using namespace std;
 #define N 6
-#define BASE 100
+#define BASE 150
 
 
+choosing_algorithm::choosing_algorithm()
+{
+    value_map = {
+        { 0, BASE },
+        { 1, 1 },
+        { 2, 20 },
+        { 3, 35 },
+        { 4, 40 },
+        { 5, 50 }
+    };
+}
 
 // Function to allocate a new search tree node
 // Here Person x is assigned to job y
@@ -35,8 +40,20 @@ Node* newNode(int x, int y, bool assigned[],
 
 // Function to calculate the least promising cost
 // of node after worker x is assigned to job y.
-int calculateCost(int costMatrix[N][N], int x, int y, bool assigned[])
+int calculateCost(std::vector< int > master_vec, int x, int y, bool assigned[], int width)
 {
+    int costMatrix[width][width], counter = 0;
+
+    for(int i = 0; i < width; i++)
+    {
+        for(int j = 0; j < width; j++)
+        {
+            costMatrix[i][j] = master_vec[counter];
+            counter++;
+        }
+
+    }
+
     int cost = 0;
 
     // to store unavailable jobs
@@ -86,8 +103,18 @@ void printAssignments(Node *min)
 }
 
 // Finds minimum cost using Branch and Bound.
-int findMinCost(int costMatrix[N][N])
+int findMinCost(std::vector< int > master_vec,int width)
 {
+    int costMatrix[width][width], counter = 0;
+
+    for(int i = 0; i < width; i++)
+    {
+        for(int j = 0; j < width; j++)
+        {
+            costMatrix[i][j] = master_vec[counter];
+            counter++;
+        }
+    }
     // Create a priority queue to store live nodes of
     // search tree;
     priority_queue<Node*, std::vector<Node*>, comp> pq;
@@ -137,7 +164,7 @@ int findMinCost(int costMatrix[N][N])
 
         // calculate its lower bound
         child->cost = child->pathCost +
-            calculateCost(costMatrix, i, j, child->assigned);
+            calculateCost(master_vec, i, j, child->assigned, width);
 
         // Add child to list of live nodes;
         pq.push(child);
@@ -146,91 +173,49 @@ int findMinCost(int costMatrix[N][N])
     }
 }
 
-std::vector < int > return_line( std::map<char, int> value_map )
+void choosing_algorithm::return_line( import Data )
 {
-    int  size = N * N, row_number = 0;                    //size is number of numbers in finnal aray/matrix
-    std::vector < int > master_tab;
-    string line;
-    ifstream myfile ("BnBtest.txt");
+    int width = Data.get_numberoftasks();
+    int master_tab[width][width];
 
-
-
-    for(int i = 0; i < N; i++)
+    for(int i = 0; i < width; i++)
     {
-        getline(myfile,line);
-
-        for(int j = 0; j < line.length(); j++)
-        {
-
-         if(line[j] == ',')
-         {
-
-             if(j == 0)
-             {
-
-                master_tab.push_back( BASE );
-
-             } else {
-
-                 if(line[j-1] == ',')
-                 {
-                     master_tab.push_back( BASE );
-
-                 } else {
-
-                     master_tab.push_back( value_map[ line[j-1] ] );
-
-                 }
-
-             }
-             row_number++;
-         }
-
-        if( j == line.length()-1 )
-        {
-            if(line[j] == ',')
-            {
-                master_tab.push_back( BASE );
-
-            } else {
-
-                master_tab.push_back( value_map[ line[j] ] );
-
-            }
-
-            row_number++;
-        }
-        }
+        for(int j = 0; j < width; j++) master_tab[i][j] = BASE;
     }
 
 
-    myfile.close();
+    std::vector<person> vec_of_persons = Data.getdata();
+    int position = 0, counter = 0;              // postioton is in witch row of master_tab we are; counter shows witch prioryty this position has
 
+    for(auto &el : vec_of_persons)
+    {
 
+        for(auto &position_of_priority : el.priorities_of_task)
+        {
+           if(position_of_priority != 0
+                   && counter <= Data.get_numberofpriorities() )
+               master_tab[position][position_of_priority-1] = value_map[counter + 1];
 
+            counter++;
+        }
+        counter = 0;
+        position++;
+    }
 
-    return master_tab;
+    for(int i = 0; i < width; i++)
+    {
+        for(int j = 0; j < width; j++) cout << master_tab[i][j] << " ";
+        cout << endl;
+    }
+
+    for(int i = 0; i < width; i++)
+    {
+        for(int j = 0; j < width; j++) master_vec.emplace_back(master_tab[i][j]);
+
+    }
+
+    findMinCost(master_vec, width);
+
 }
 
 
-//int costMatrix[N][N];
-//std::map<char, int> value_map = {
-//    { '1', 1 },
-//    { '2', 8 },
-//    { '3', 12 },
-//    { '4', 17 },
-//    { '5', 23 }
-
-//};
-
-//for(int i = 0; i < N; i++)
-//{
-//    for(int j = 0; j < N; j++)
-//    {
-
-//        costMatrix[j][i] = dane[licznik];
-//        licznik++;
-
-//    }
-
-//}

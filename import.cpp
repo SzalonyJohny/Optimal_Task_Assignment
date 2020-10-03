@@ -64,3 +64,14 @@ std::vector<person> import::getdata()
 {
     return data_osoby;
 }
+
+int import::get_numberoftasks()
+{
+    return number_of_tasks;
+}
+
+int import::get_numberofpriorities()
+{
+    return number_of_priorities;
+}
+
