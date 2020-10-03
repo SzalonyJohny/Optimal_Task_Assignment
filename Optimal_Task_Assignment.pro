@@ -1,14 +1,14 @@
 TEMPLATE = app
-CONFIG += console c++11
+CONFIG += console c++17
 CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += \
-        main.cpp \
+        choosing_algorithm.cpp \
         import.cpp \
-        choosing_algorithm.cpp
+        main.cpp
 
-HEADERS  += \
-    import.h \
-    choosing_algorithm.h
+HEADERS += \
+    choosing_algorithm.h \
+    import.h
 
