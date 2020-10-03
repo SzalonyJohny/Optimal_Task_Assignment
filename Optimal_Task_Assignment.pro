@@ -4,4 +4,11 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += \
-        main.cpp
+        main.cpp \
+        import.cpp \
+        choosing_algorithm.cpp
+
+HEADERS  += \
+    import.h \
+    choosing_algorithm.h
+
